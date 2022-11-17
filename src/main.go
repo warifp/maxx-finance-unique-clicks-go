@@ -13,6 +13,10 @@ import (
 )
 
 func main() {
+
+	// change your thread number here
+	threads := 100
+
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -25,12 +29,12 @@ func main() {
 	}
 
 	results := make(chan string)
-	for i := 0; i < 100; i++ {
+	for i := 0; i < threads; i++ {
 		go func(num int) {
 			results <- threadRequest(num, __refLink)
 		}(i)
 	}
-	for i := 0; i < 100; i++ {
+	for i := 0; i < threads; i++ {
 		fmt.Println(<-results)
 	}
 }
